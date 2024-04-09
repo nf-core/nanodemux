@@ -292,6 +292,11 @@
                     "fa_icon": "fas fa-fast-forward",
                     "description": "Skip NanoPlot."
                 },
+                "skip_toulligqc": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-fast-forward",
+                    "description": "Skip ToulligQC."
+                },
                 "skip_fastqc": {
                     "type": "boolean",
                     "fa_icon": "fas fa-fast-forward",

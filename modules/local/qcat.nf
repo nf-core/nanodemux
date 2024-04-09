@@ -4,8 +4,8 @@ process QCAT {
 
     conda "bioconda::qcat=1.1.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/qcat:1.1.0--py_0' :
-        'quay.io/biocontainers/qcat:1.1.0--py_0' }"
+        'https://depot.galaxyproject.org/singularity/qcat:1.1.0--pyh864c0ab_1' :
+        'quay.io/biocontainers/qcat:1.1.0--pyh864c0ab_1' }"
 
     input:
     path input_path
