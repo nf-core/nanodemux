@@ -30,7 +30,7 @@ _Documentation_:
 _Description_:
 Nanoseq is designed to deal with various input data types. Pre-basecalled FASTQ file can be demuliplexed using _qcat_. Please see [`usage.md`](usage.md#--input) for more details about the format of the input samplesheet. All potential outputs are shown here however some may not be produced depending on your inputs and the steps you have chosen to run.
 
-## Removal of DNA contaminants
+## Alignment
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -46,7 +46,9 @@ _Documentation_:
 _Description_:
 If you would like to run NanoLyse on the raw FASTQ files you can provide `--run_nanolyse` when running the pipeline. By default, the pipeline will filter lambda phage reads. However, you can provide your own FASTA file of "contaminants" with `--nanolyse_fasta`. The filtered FASTQ files will contain raw reads without the specified reference sequences (default: lambda phage sequences).
 
-## Read QC
+## Sorting and Indexing
+
+## Variant Calling
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -67,7 +69,7 @@ _NanoPlot_ can be used to produce general quality metrics from the per barcode F
 
 _FastQC_ can give general quality metrics about your reads. It can provide information about the quality score distribution across your reads, and the per-base sequence content (%A/C/G/T). You can also generate information about adapter contamination and other over-represented sequences.
 
-## Alignment
+## Phasing
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -88,7 +90,7 @@ The initial SAM alignment file created by _GraphMap2_ or _Minimap2_ are not save
 
 ![MultiQC - Samtools stats plot](images/mqc_samtools_stats_plot.png)
 
-## Coverage tracks
+## Repeat Genotype
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -108,7 +110,7 @@ The [bigWig](https://genome.ucsc.edu/goldenpath/help/bigWig.html) format is an i
 
 The creation of these bigwig and bigbed files can be bypassed by setting the `--skip_bigwig` and `--skip_bigbed` parameters, respectively.
 
-## Variant calling
+## Repeat Plotting
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -152,84 +154,7 @@ Short variants can be called using _medaka_, _deepvariant_ or _pepper_margin_dee
 Structural variants can be called using either _cuteSV_ or _sniffles_. The structural variant caller is specified using the `--structural_variant_caller` parameter.
 The short variant and/or structural variant calling steps is skipped if using the `--skip_vc` and `--skip_sniffles` flags.
 
-## Transcript Reconstruction and Quantification
 
-<details markdown="1">
-<summary>Output files</summary>
-
-If bambu is used:
-
-- `bambu/`
-  - `extended_annotations.gtf`: a GTF file that contains both annotated and novel transcripts.
-  - `counts_gene.txt`: a TXT file containing gene expression estimates.
-  - `counts_transcript.txt`: a TXT file containing transcript expression estimates.
-
-If StringTie2 is used:
-
-- `stringtie2/`
-  - `*.bam`: per sample coordinate sorted alignment file.
-  - `*.stringtie.gtf`: per sample annotations for novel transcripts obtained in _StringTie2_.
-  - `stringtie.merged.gtf`: extended annotation that combines provided GTF with GTF file from each sample via _StringTie2 Merge_.
-  - `counts_gene.txt`: gene expression estimates calculated by featureCounts.
-  - `counts_gene.txt.summary`: FeatureCounts gene level log file.
-  - `counts_transcript.txt`: transcript expression estimates calculated by featureCounts.
-  - `counts_transcript.txt.summary`: FeatureCounts transcript level log file.
-
-</details>
-
-_Documentation_:
-[bambu](https://bioconductor.org/packages/release/bioc/html/bambu.html), [StringTie2](https://ccb.jhu.edu/software/stringtie/), [featureCounts](http://bioinf.wehi.edu.au/featureCounts/)
-
-_Description_:
-After genomic alignment, novel transcripts can be reconstructed using tools such as bambu and StringTie2. Quantification can then be performed on a more complete annotation based on the transcripts detected within a given set of samples. bambu performs both the reconstruction and quantification steps. An an alternative approach, we also provides an option to run StringTie2 to identify novel transcripts. However, when multiple samples are provided, quantification for multiple samples are not implemented explicitly in the software. Hence a second step is required to merge novel transcripts across multiple samples followed by quantification for both gene and transcripts using featureCounts. You can skip transcript reconstruction and quantification by providing the `--skip_quantification` parameter.
-
-## Differential expression analysis
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `<QUANTIFICATION_METHOD>/deseq2/deseq2.results.txt`: a TXT file that contains differential gene expression.
-- `<QUANTIFICATION_METHOD>/dexseq/dexseq.results.txt`: a TXT file that contains differential transcript expression.
-
-</details>
-
-_Documentation_:
-[DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), [DEXSeq](https://bioconductor.org/packages/release/bioc/html/DEXSeq.html)
-
-_Description_:
-If multiple conditions and multiple replicates are available then the pipeline is able to run differential analysis on gene and transcripts with DESeq2 and DEXSeq, respectively. These steps won't be run if you provide the `--skip_quantification` or `--skip_differential_analysis` parameters or if all of the samples in the samplesheet don't have the same FASTA and GTF reference files.
-
-## RNA modification analysis
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `rna_modifications/xpore/diffmod/diffmod_outputs/diffmod.table`: a table file that contains differentially modified sites.
-- `rna_modifications/m6anet/inference/<sample_name>/data.result.csv.gz`: a CSV file that contains m6A sites.
-
-</details>
-
-_Documentation_:
-[xPore](https://xpore.readthedocs.io/en/latest/), [m6anet](https://m6anet.readthedocs.io/en/latest/)
-
-_Description_:
-If multiple conditions are available then the pipeline is able to run differential modification analysis with xPore. These steps won't be run if you provide the `--skip_modification_analysis` or `--skip_xpore` or `--skip_m6anet` parameters.
-
-## RNA fusion analysis
-
-<details markdown="1">
-<summary>Output files</summary>
-
-- `jaffal/jaffa_results.csv`: a CSV file that contains RNA fusion results.
-- `jaffal/jaffa_results.fasta`: a FASTA file that contains the sequence of the RNA fusions.
-
-</details>
-
-_Documentation_:
-[jaffal](https://github.com/Oshlack/JAFFA/wiki)
-
-_Description_:
-This step won't be run if you provide the `--skip_fusion_analysis` parameter.
 
 ## MultiQC
 
