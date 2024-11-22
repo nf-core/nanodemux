@@ -4,8 +4,8 @@ process TOULLIGQC {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/toulligqc:2.5.4--pyhdfd78af_0':
-        'quay.io/biocontainers/toulligqc:2.5.4--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/toulligqc:2.5.6--pyhdfd78af_0':
+        'quay.io/biocontainers/toulligqc:2.5.6--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(ontfile)
