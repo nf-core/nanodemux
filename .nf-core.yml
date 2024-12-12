@@ -1,7 +1,4 @@
-bump_version: null
-lint: null
-nf_core_version: 3.0.2
-org_path: null
+nf_core_version: 3.1.0
 repository_type: pipeline
 template:
   author: Chelsea Sawyer, Yuk Kei Wan
@@ -11,6 +8,4 @@ template:
   name: nanoseq
   org: nf-core
   outdir: .
-  skip_features: null
   version: 3.1.0
-update: null
